@@ -1,5 +1,7 @@
 html,
-body {
+body,
+#app,
+.container {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -8,6 +10,12 @@ body {
 
 .container  {
   padding: 0 20px;
+
+  @media(min-width: 786px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .vuelator {
@@ -15,9 +23,13 @@ body {
   border: 1px solid #ddd;
   padding: 0 15px;
 
-
   @media(min-width: 576px) {
     width: 400px;
+  }
+
+  @media(min-width: 768px) {
+    width: 400px;
+    height: 665px;
   }
 
   .vuelator-display {
@@ -74,6 +86,11 @@ body {
   letter-spacing: 5px;
   text-align: right;
   word-wrap: break-word;
+
+  @media(min-width: 768px) {
+    width: 400px;
+    height: 630px;
+  }
 
   .vuelator-loglist {
     list-style: none;
