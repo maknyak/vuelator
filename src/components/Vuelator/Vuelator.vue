@@ -17,15 +17,15 @@
     <vuelator-btn btnClass="btn" btnText="8" @clicked="setDigit"/>
     <vuelator-btn btnClass="btn" btnText="9" @clicked="setDigit"/>
     <vuelator-btn btnClass="btn" btnText="0" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="+" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="-" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="x" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText=":" @clicked="setDigit"/>
+    <vuelator-btn btnClass="btn" btnText="+" @clicked="setOperator"/>
+    <vuelator-btn btnClass="btn" btnText="-" @clicked="setOperator"/>
+    <vuelator-btn btnClass="btn" btnText="x" @clicked="setOperator"/>
+    <vuelator-btn btnClass="btn" btnText=":" @clicked="setOperator"/>
     <vuelator-btn btnClass="btn" btnText="." @clicked="setDecimal"/>
-    <vuelator-btn btnClass="btn" btnText="=" @clicked="doCalculate"/>
-    <vuelator-btn btnClass="btn" btnText="+/-" @clicked="setNegatifNumber"/>
-    <vuelator-btn btnClass="btn" btnText="%" @clicked="doPercentage"/>
-    <vuelator-btn btnClass="btn" btnText="Clear" @clicked="doReset"/>
+<!--    <vuelator-btn btnClass="btn" btnText="=" @clicked="doCalculate"/>-->
+<!--    <vuelator-btn btnClass="btn" btnText="+/-" @clicked="setNegatifNumber"/>-->
+<!--    <vuelator-btn btnClass="btn" btnText="%" @clicked="doPercentage"/>-->
+<!--    <vuelator-btn btnClass="btn" btnText="Clear" @clicked="doReset"/>-->
   </div>
 </template>
 
@@ -52,41 +52,23 @@ export default {
   },
   methods: {
     setDigit(value) {
-      const { isOperator } = this;
-      const isDecimal = this.input.toString().includes('.');
-
-      if (isOperator(value)) {
-        // check input on decimal value
-        const lastIndex = this.input.length - 1;
-        if (isDecimal && isNaN(this.input[lastIndex])) {
-          return false;
-        }
-
-        if (this.total) {
-          this.expression += this.total + value;
-        } else {
-          this.expression += this.input + value;
-
-          // check if operator has duplicated
-          const last = this.expression.substr(-2);
-          if (isOperator(last[0]) && isOperator(last[1])) {
-            this.expression = this.expression.replace(last, value);
-          }
-        }
-
-        // reset variable
-        this.input = '';
-        this.total = '';
-        // eslint-disable-next-line no-restricted-globals
-      } else if (this.input.toString() === '0' && !isNaN(value)) {
-        // remove 0 if not decimal number
-        this.input = Number(this.input + value);
+      if (this.input === 0 || this.input === '') {
+        this.input = Number(this.input + value); // is not decimal number, remove 0
       } else {
-        this.input += value;
-        this.total = '';
+        this.input += value; // concat new digit
       }
+    },
+    setOperator(operator) {
+      const { isOperator } = this;
+      const last = this.expression.substr(-1);
 
-      console.log(this.input);
+      if (isOperator(last) && this.input === '') {
+        const expression = this.expression.slice(0, -1); // remove operator
+        this.expression = expression + operator; // and replace with new operator
+      } else {
+        this.expression += this.input + operator; // set operator
+        this.input = '';
+      }
     },
     setDecimal() {
       const isDecimal = this.input.toString().includes('.');
@@ -95,48 +77,8 @@ export default {
         this.input += '.';
       }
     },
-    setNegatifNumber() {
-      if (this.input > 0) {
-        this.input = `(-${this.input})`;
-      }
-    },
-    doPercentage() {
-      if (this.input > 0) {
-        const result = Number(this.input) * 0.01;
-        this.input = result;
-      }
-    },
-    doReset() {
-      this.expression = '';
-      this.total = '';
-      this.input = 0;
-    },
-    doCalculate() {
-      this.expression += this.input;
-      if (this.expression === '0:0') {
-        alert('Infinity');
-        this.doReset();
-      } else {
-        this.expression = this.expression.replace(/x/g, '*');
-        // eslint-disable-next-line no-useless-escape
-        this.expression = this.expression.replace(/\:/g, '/');
-
-        // eslint-disable-next-line no-eval
-        this.total = eval(this.expression); // calculate total
-        this.expression += `=${parseFloat(this.total)}`;
-
-        // save to history
-        if (this.expression) {
-          this.logs.push(this.expression);
-
-          // reset variable
-          this.input = '';
-          this.expression = '';
-        }
-      }
-    },
-    isOperator(type) {
-      return type === '+' || type === '-' || type === 'x' || type === ':' || type === '-' || type === '=';
+    isOperator(tipe) {
+      return tipe === '+' || tipe === '-' || tipe === ':' || tipe === 'x';
     },
   },
 };
