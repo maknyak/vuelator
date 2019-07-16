@@ -45,7 +45,11 @@ export default {
   },
   methods: {
     setDigit(value) {
-      this.total = ''; // reset total
+      if (this.total) {
+        this.expression = '';
+        this.total = '';
+      }
+
       if (this.input === 0 || this.input === '') {
         this.input = Number(this.input + value); // is not decimal number, remove 0
       } else {
@@ -61,6 +65,7 @@ export default {
         this.expression = expression + operator; // and replace with new operator
       } else {
         if (this.total) {
+          this.expression = '';
           this.expression += this.total + operator; // calculate previous total
         } else {
           this.expression += this.input + operator; // set operator
@@ -118,11 +123,11 @@ export default {
         const total = eval(expression); // calculate total
         // eslint-disable-next-line no-restricted-globals
         if (!isNaN(total)) {
-          this.expression += `=${parseFloat(total)}`;
+          const logs = `${this.expression}=${parseFloat(total)}`;
           this.total = total;
 
-          if (this.expression) {
-            this.$store.commit('SET_LOGS', this.expression);
+          if (logs) {
+            this.$store.commit('SET_LOGS', logs);
           }
         } else {
           alert('Infinite!');
@@ -130,7 +135,6 @@ export default {
 
         // reset variable
         this.input = '';
-        this.expression = '';
       }
     },
   },
