@@ -2,8 +2,8 @@
   <div id="app">
     <div class="container">
       <vuelator/>
+      <vuelator-log/>
     </div>
-    <vuelator-log/>
   </div>
 </template>
 
