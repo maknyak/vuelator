@@ -57,9 +57,13 @@ export default {
         } else {
           this.expression += this.input + value;
         }
+
+        // reset variable
         this.input = '';
         this.total = '';
+        // eslint-disable-next-line no-restricted-globals
       } else if (this.input.toString() === '0' && !isNaN(value)) {
+        // remove 0 if not decimal number
         this.input = Number(this.input + value);
       } else {
         this.input += value;
@@ -69,19 +73,20 @@ export default {
     doCalculate() {
       this.expression += this.input;
       // eslint-disable-next-line no-eval
-      this.total = eval(this.expression);
+      this.total = eval(this.expression); // count total
       this.expression += `=${this.total}`;
 
       // save to history
       if (this.expression) {
         this.logs.push(this.expression);
+
+        // reset variable
         this.input = '';
         this.expression = '';
       }
     },
     setDecimal() {
-      const { input } = this;
-      const isDecimal = input.toString().includes('.');
+      const isDecimal = this.input.toString().includes('.');
 
       if (!isDecimal) {
         this.input += '.';
