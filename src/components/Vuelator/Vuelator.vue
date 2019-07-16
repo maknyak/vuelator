@@ -2,11 +2,6 @@
   <div class="vuelator">
     <div>{{expression}}{{input}}</div>
     <div>{{total}}</div>
-    <div>
-      <ul v-if="logs.length > 0">
-        <li v-for="(log, index) in logs" :key="index">{{log}}</li>
-      </ul>
-    </div>
     <vuelator-btn btnClass="btn" btnText="1" @clicked="setDigit"/>
     <vuelator-btn btnClass="btn" btnText="2" @clicked="setDigit"/>
     <vuelator-btn btnClass="btn" btnText="3" @clicked="setDigit"/>
@@ -47,7 +42,6 @@ export default {
       input: 0,
       expression: '',
       total: '',
-      logs: [],
     };
   },
   methods: {
@@ -112,26 +106,29 @@ export default {
       const { isOperator } = this;
       const last = this.expression.substr(-1);
 
+      let expression = '';
       if (isOperator(last) && this.input !== '') {
         this.expression += this.input;
+
         // convert : or x with aritmatic operator
-        this.expression = this.expression.replace(/x/g, '*');
         // eslint-disable-next-line no-useless-escape
-        this.expression = this.expression.replace(/\:/g, '/');
+        expression = this.expression.replace(/\:/g, '/');
+        expression = this.expression.replace(/x/g, '*');
 
         // eslint-disable-next-line no-eval
-        const total = eval(this.expression); // calculate total
+        const total = eval(expression); // calculate total
         // eslint-disable-next-line no-restricted-globals
         if (!isNaN(total)) {
-          this.total = total;
           this.expression += `=${parseFloat(total)}`;
+          this.total = total;
 
-          // log calculate history
+          const logs = [];
           if (this.expression) {
-            this.logs.push(this.expression);
+            logs.push(this.expression);
+            this.$store.commit('SET_LOGS', logs);
           }
         } else {
-          alert('invalid number');
+          alert('Infinite!');
         }
 
         // reset variable
