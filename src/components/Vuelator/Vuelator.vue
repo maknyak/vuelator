@@ -23,9 +23,9 @@
     <vuelator-btn btnClass="btn" btnText=":" @clicked="setOperator"/>
     <vuelator-btn btnClass="btn" btnText="." @clicked="setDecimal"/>
 <!--    <vuelator-btn btnClass="btn" btnText="=" @clicked="doCalculate"/>-->
-<!--    <vuelator-btn btnClass="btn" btnText="+/-" @clicked="setNegatifNumber"/>-->
-<!--    <vuelator-btn btnClass="btn" btnText="%" @clicked="doPercentage"/>-->
-<!--    <vuelator-btn btnClass="btn" btnText="Clear" @clicked="doReset"/>-->
+    <vuelator-btn btnClass="btn" btnText="+/-" @clicked="setNegatifNumber"/>
+    <vuelator-btn btnClass="btn" btnText="%" @clicked="doPercentage"/>
+    <vuelator-btn btnClass="btn" btnText="Clear" @clicked="doReset"/>
   </div>
 </template>
 
@@ -79,6 +79,22 @@ export default {
     },
     isOperator(tipe) {
       return tipe === '+' || tipe === '-' || tipe === ':' || tipe === 'x';
+    },
+    setNegatifNumber() {
+      if (this.input > 0) {
+        this.input = `(-${this.input})`;
+      }
+    },
+    doPercentage() {
+      if (this.input > 0) {
+        const result = Number(this.input) * 0.01;
+        this.input = result;
+      }
+    },
+    doReset() {
+      this.expression = '';
+      this.total = '';
+      this.input = 0;
     },
   },
 };
