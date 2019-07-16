@@ -1,0 +1,15 @@
+ .btn {
+   background-color: #fff;
+   border: 1px solid #ddd;
+   padding: 15px;
+
+   &.btn-circle {
+     border-radius: 50%;
+   }
+ }
+
+ .vuelator-btn {
+   width: 70px;
+   height: 70px;
+   margin: auto;
+ }

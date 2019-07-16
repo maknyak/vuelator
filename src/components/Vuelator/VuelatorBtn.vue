@@ -1,7 +1,5 @@
 <template>
-  <div class="vuelator-btn">
-    <button :class="btnClass" @click="onClick" :disabled="btnDisabled">{{btnText}}</button>
-  </div>
+  <button :class="btnClass" @click="onClick" :disabled="btnDisabled">{{btnText}}</button>
 </template>
 
 <script>
@@ -20,7 +18,6 @@ export default {
     },
     btnClass: {
       type: String,
-      required: true,
     },
     btnValue: {
       type: String,
@@ -39,14 +36,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-  .vuelator-btn {
-    display: inline-block;
-
-    .btn {
-
-      display: inline-block;
-    }
-  }
-</style>

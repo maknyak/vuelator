@@ -1,26 +1,31 @@
 <template>
   <div class="vuelator">
-    <div>{{expression}}{{input}}</div>
-    <div>{{total}}</div>
-    <vuelator-btn btnClass="btn" btnText="1" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="2" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="3" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="4" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="5" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="6" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="7" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="8" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="9" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="0" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="+" @clicked="setOperator"/>
-    <vuelator-btn btnClass="btn" btnText="-" @clicked="setOperator"/>
-    <vuelator-btn btnClass="btn" btnText="x" @clicked="setOperator"/>
-    <vuelator-btn btnClass="btn" btnText=":" @clicked="setOperator"/>
-    <vuelator-btn btnClass="btn" btnText="." @clicked="setDecimal"/>
-    <vuelator-btn btnClass="btn" btnText="=" @clicked="doCalculate"/>
-    <vuelator-btn btnClass="btn" btnText="+/-" @clicked="setNegatifNumber"/>
-    <vuelator-btn btnClass="btn" btnText="%" @clicked="doPercentage"/>
-    <vuelator-btn btnClass="btn" btnText="Clear" @clicked="doReset"/>
+    <div class="vuelator-display">
+      <div class="veulator-expression">{{expression}}{{input}}</div>
+      <div class="vuelator-total">{{total}}</div>
+    </div>
+
+    <div class="vuelator-key">
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="1" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="2" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="3" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="4" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="5" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="6" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="7" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="8" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="9" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="0" @clicked="setDigit"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="+" @clicked="setOperator"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="-" @clicked="setOperator"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="x" @clicked="setOperator"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText=":" @clicked="setOperator"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="." @clicked="setDecimal"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="=" @clicked="doCalculate"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="+/-" @clicked="setNegatifNumber"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="%" @clicked="doPercentage"/>
+      <vuelator-btn class="btn btn-circle vuelator-btn" btnText="Clear" @clicked="doReset"/>
+    </div>
   </div>
 </template>
 

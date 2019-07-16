@@ -1,0 +1,52 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.container  {
+  padding: 0 20px;
+}
+
+.vuelator {
+  margin: 0 auto;
+
+
+  .vuelator-display {
+    width: 100%;
+    margin-top: 15px;
+    max-height: 160px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-bottom: 1px solid #ddd;
+
+    .veulator-expression {
+      font-size: 22px;
+      text-align: right;
+      min-height: 30px;
+      padding: 10px;
+
+
+      word-wrap: break-word;
+    }
+
+    .vuelator-total {
+      font-size: 36px;
+      text-align: right;
+      min-height: 80px;
+      padding: 0 10px 10px 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+  }
+
+  .vuelator-key {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+    grid-gap: 10px;
+    margin-top: 50px;
+  }
+}
