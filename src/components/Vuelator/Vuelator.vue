@@ -1,6 +1,7 @@
 <template>
   <div class="vuelator">
-    <div>{{total}}{{expression}}{{input}}</div>
+    <div>{{expression}}{{input}}</div>
+    <div>{{total}}</div>
     <div>
       <ul v-if="logs.length > 0">
         <li v-for="(log, index) in logs" :key="index">{{log}}</li>
@@ -18,11 +19,13 @@
     <vuelator-btn btnClass="btn" btnText="0" @clicked="setDigit"/>
     <vuelator-btn btnClass="btn" btnText="+" @clicked="setDigit"/>
     <vuelator-btn btnClass="btn" btnText="-" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="*" @clicked="setDigit"/>
-    <vuelator-btn btnClass="btn" btnText="/" @clicked="setDigit"/>
+    <vuelator-btn btnClass="btn" btnText="x" @clicked="setDigit"/>
+    <vuelator-btn btnClass="btn" btnText=":" @clicked="setDigit"/>
     <vuelator-btn btnClass="btn" btnText="." @clicked="setDecimal"/>
     <vuelator-btn btnClass="btn" btnText="=" @clicked="doCalculate"/>
-    <vuelator-btn btnClass="btn" btnText="C" @clicked="doReset"/>
+    <vuelator-btn btnClass="btn" btnText="+/-" @clicked="setNegatifNumber"/>
+    <vuelator-btn btnClass="btn" btnText="%" @clicked="doPercentage"/>
+    <vuelator-btn btnClass="btn" btnText="Clear" @clicked="doReset"/>
   </div>
 </template>
 
@@ -50,12 +53,25 @@ export default {
   methods: {
     setDigit(value) {
       const { isOperator } = this;
+      const isDecimal = this.input.toString().includes('.');
 
       if (isOperator(value)) {
+        // check input on decimal value
+        const lastIndex = this.input.length - 1;
+        if (isDecimal && isNaN(this.input[lastIndex])) {
+          return false;
+        }
+
         if (this.total) {
           this.expression += this.total + value;
         } else {
           this.expression += this.input + value;
+
+          // check if operator has duplicated
+          const last = this.expression.substr(-2);
+          if (isOperator(last[0]) && isOperator(last[1])) {
+            this.expression = this.expression.replace(last, value);
+          }
         }
 
         // reset variable
@@ -69,35 +85,58 @@ export default {
         this.input += value;
         this.total = '';
       }
-    },
-    doCalculate() {
-      this.expression += this.input;
-      // eslint-disable-next-line no-eval
-      this.total = eval(this.expression); // count total
-      this.expression += `=${this.total}`;
 
-      // save to history
-      if (this.expression) {
-        this.logs.push(this.expression);
-
-        // reset variable
-        this.input = '';
-        this.expression = '';
-      }
+      console.log(this.input);
     },
     setDecimal() {
       const isDecimal = this.input.toString().includes('.');
 
-      if (!isDecimal) {
+      if (!isDecimal && this.input !== '') {
         this.input += '.';
+      }
+    },
+    setNegatifNumber() {
+      if (this.input > 0) {
+        this.input = `(-${this.input})`;
+      }
+    },
+    doPercentage() {
+      if (this.input > 0) {
+        const result = Number(this.input) * 0.01;
+        this.input = result;
       }
     },
     doReset() {
       this.expression = '';
+      this.total = '';
       this.input = 0;
     },
+    doCalculate() {
+      this.expression += this.input;
+      if (this.expression === '0:0') {
+        alert('Infinity');
+        this.doReset();
+      } else {
+        this.expression = this.expression.replace(/x/g, '*');
+        // eslint-disable-next-line no-useless-escape
+        this.expression = this.expression.replace(/\:/g, '/');
+
+        // eslint-disable-next-line no-eval
+        this.total = eval(this.expression); // calculate total
+        this.expression += `=${parseFloat(this.total)}`;
+
+        // save to history
+        if (this.expression) {
+          this.logs.push(this.expression);
+
+          // reset variable
+          this.input = '';
+          this.expression = '';
+        }
+      }
+    },
     isOperator(type) {
-      return type === '+' || type === '-' || type === '*' || type === '/' || type === '-' || type === '=';
+      return type === '+' || type === '-' || type === 'x' || type === ':' || type === '-' || type === '=';
     },
   },
 };
