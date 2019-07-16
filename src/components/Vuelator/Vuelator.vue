@@ -26,16 +26,10 @@
 
 <script>
 import VuelatorBtn from '@/components/Vuelator/VuelatorBtn.vue';
-import VuelatorLog from '@/components/Vuelator/VuelatorLog.vue';
 
 export default {
   components: {
     VuelatorBtn,
-  },
-  computed: {
-    getDisplay() {
-      return this.$store.getters.getDisplay;
-    },
   },
   data() {
     return {
@@ -111,9 +105,9 @@ export default {
         this.expression += this.input;
 
         // convert : or x with aritmatic operator
+        expression = this.expression.replace(/x/g, '*');
         // eslint-disable-next-line no-useless-escape
         expression = this.expression.replace(/\:/g, '/');
-        expression = this.expression.replace(/x/g, '*');
 
         // eslint-disable-next-line no-eval
         const total = eval(expression); // calculate total
@@ -122,10 +116,8 @@ export default {
           this.expression += `=${parseFloat(total)}`;
           this.total = total;
 
-          const logs = [];
           if (this.expression) {
-            logs.push(this.expression);
-            this.$store.commit('SET_LOGS', logs);
+            this.$store.commit('SET_LOGS', this.expression);
           }
         } else {
           alert('Infinite!');

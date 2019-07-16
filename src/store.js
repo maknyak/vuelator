@@ -8,11 +8,11 @@ export default new Vuex.Store({
     logs: [],
   },
   mutations: {
-    SET_LOGS: (state, logs) => {
-      state.logs = logs;
+    SET_LOGS: (state, log) => {
+      state.logs.push(log)
     },
   },
-  actions: {
-
+  getters: {
+    logs: state => state.logs,
   },
 });
